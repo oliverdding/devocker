@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  server:
+    image: 'yandex/clickhouse-server:latest'
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - "server_data:/var/lib/clickhouse"
+  client:
+    image: yandex/clickhouse-client
+    depends_on:
+      - server
+    command: ['--host', 'server']
+
+volumes:
+  server_data:
+    driver: local

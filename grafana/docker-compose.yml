@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  grafana:
+    image: docker.io/bitnami/grafana:8
+    ports:
+      - '3000:3000'
+    environment:
+      - 'GF_SECURITY_ADMIN_PASSWORD=bitnami'
+      - 'GF_INSTALL_PLUGINS=vertamedia-clickhouse-datasource'
+    volumes:
+      - grafana_data:/opt/bitnami/grafana/data
+      - ./grafana.ini:/opt/binami/grafana/conf/grafana.ini
+volumes:
+  grafana_data:
+    driver: local
